@@ -1,4 +1,5 @@
 import random
+from enum import Enum
 from utils import *
 
 class State(Enum): # UNUSED
@@ -15,11 +16,20 @@ GRID = \
 ]
         
 def play(GRID, x, y, tile):
-    legal_actions = get_possible_actions(GRID)
-    if (x, y) not in legal_actions:
+    if not is_action_legal(GRID, (x, y)):
         return False
     GRID[y][x] = tile
     return True
+
+def play(GRID, action, tile):
+    x = action[0]
+    y = action[1]
+    play(GRID, x, y, tile)
+    
+def foresee_grid(GRID, action, tile): # play and return next state without modifying the original
+    copyGRID = GRID[::]
+    play(copyGRID, action, tile)
+    return copyGRID
 
 def player_turn(GRID, tile):
     coor = input("enter coor: ")

@@ -49,12 +49,18 @@ def check_end(GRID, tile):
         return True
     return False
 
-def game_result(GRID, tile):
-    opp = Tile.N
+def negate_tile(tile):
+    if tile == Tile.N:
+        raise Exception("null tile cannot be negated")
     if tile == Tile.X:
         opp = Tile.O
     else:
         opp = Tile.X
+        
+    return opp
+
+def game_result(GRID, tile):
+    opp = negate_tile(tile)
         
     if check_winlose(GRID, tile):
         return 1
@@ -88,3 +94,9 @@ def get_possible_actions(GRID):
             if tile == Tile.N:
                 arr.append((i, j))
     return arr
+
+def is_action_legal(GRID, action):
+    legal_actions = get_possible_actions(GRID)
+    if (action[0], action[1]) not in legal_actions:
+        return False
+    return True
